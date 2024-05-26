@@ -16,7 +16,11 @@ class ProductController extends Controller
     public function index()
     {
         $product = Product::all();
-        // $data = 
+        $data = [
+            'status'=>200,
+            'product'=>$product
+        ];
+        return  response()->json($data,200);
     }
 
     /**
