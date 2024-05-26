@@ -28,53 +28,72 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-     $validator = Validator::make($request->all(), [
+        $validatedData = $request->validate([
             'name' => 'required',
-            'price'=> 'required',
-            'stock'=>'required'
-     ]);
-     if($validator ->fails() ){
-        $data=[
-          "status"=>422,
-          "message"=> $validator->messages()
-        ];
-        return response()->json($data,422);
-     }
-     $product = new Product;
-     $product->name = $request->name;
-     $product->price = $request->price;
-     $product->stock = $request->stock;
-     $product->save();
+            'price' => 'required',
+            'stock' => 'required',
+            'description' => 'required',
+        ]);
+    
+        $product = Product::create($validatedData);
 
-     $data=[
-        "status"=>200,
-        "message"=> 'Product Creadted succefully'
-      ];
-      return response()->json($data,200);
+        $data = [
+            'status' => 200,
+            'message' => 'Product created successfully',
+            'product' => $product,
+        ];
+    
+        return response()->json($data, 200);    
 
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified product.
      */
     public function show(Product $product)
     {
-        //
+   
+        $data = [
+            'status'=>200,
+            'product'=>$product
+        ];
+        return  response()->json($data,200);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified product in storage.
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'price' => 'required',
+            'stock' => 'required',
+            'description' => 'required',
+        ]);
+    
+        $product->update($validatedData);
+    
+        $data = [
+            'status' => 200,
+            'message' => 'Product updated successfully',
+        ];
+    
+        return response()->json($data, 200);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified product from storage.
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+
+        $data =[
+            'status' => 200,
+            'message'=>'producte deleted successfully'
+        ];
+
+        return response()->json($data, 200);
     }
 }
