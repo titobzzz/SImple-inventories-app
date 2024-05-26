@@ -15,7 +15,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $product = Product::all();
+        $product = Product::paginate(20);
         $data = [
             'status'=>200,
             'product'=>$product
