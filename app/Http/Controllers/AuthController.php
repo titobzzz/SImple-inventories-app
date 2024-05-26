@@ -13,7 +13,7 @@ class AuthController extends Controller
     {
         $data = $request->validate([
             "name"=>["required","string"],
-            "email"=> ["required","email","unique|users"],
+            "email"=> ["required","email","unique:users"],
             "password"=> ["required", "min:8"],
         ]);
 
@@ -30,7 +30,7 @@ class AuthController extends Controller
     public function login(Request $request){
 
         $data = $request->validate([
-            "email"=> ["required","email","exist|users"],
+            "email"=> ["required","email","exists:users,email"],
             "password"=> ["required", "min:8"],
         ]);
 
